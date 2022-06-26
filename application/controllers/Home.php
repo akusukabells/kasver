@@ -44,7 +44,7 @@ class Home extends CI_Controller {
 	 
 
 }
-class Home{
+class firebaseRDB{
 	function __construct($url=null) {
 	   if(isset($url)){
 		  $this->url = $url;
