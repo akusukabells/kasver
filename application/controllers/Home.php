@@ -1,5 +1,5 @@
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed');
+
 $server_key = "SB-Mid-server-U4Rl-v_VLt-SlGQ1tL9vl4E_";
 $is_production = false;
 $api_url = $is_production ? 
