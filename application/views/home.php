@@ -7,7 +7,7 @@ body, html {
 }
 
 .bgimg {
-  background-image: url('https://firebasestorage.googleapis.com/v0/b/kasver-92d84.appspot.com/o/pexels-felix-mittermeier-956999.jpg?alt=media&token=71102362-c721-42e8-b5b6-5e72354765c3');
+  background-image: url('https://firebasestorage.googleapis.com/v0/b/kasver-92d84.appspot.com/o/stars-galaxy.gif?alt=media&token=6e598af7-8e40-4a03-9c67-866911cfae95');
   height: 100%;
   background-position: center;
   background-size: cover;
