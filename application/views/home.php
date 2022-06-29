@@ -7,7 +7,7 @@ body, html {
 }
 
 .bgimg {
-  background-image: url('https://firebasestorage.googleapis.com/v0/b/kasver-92d84.appspot.com/o/stars-galaxy.gif?alt=media&token=6e598af7-8e40-4a03-9c67-866911cfae95');
+  background-image: url('https://firebasestorage.googleapis.com/v0/b/kasver-92d84.appspot.com/o/galaxy.gif?alt=media&token=9802c743-9f91-45ab-be36-0030dd9581f9');
   height: 100%;
   background-position: center;
   background-size: cover;
