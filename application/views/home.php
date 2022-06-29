@@ -7,12 +7,12 @@ body, html {
 }
 
 .bgimg {
-  background-image: url('https://firebasestorage.googleapis.com/v0/b/kasver-92d84.appspot.com/o/0eb15636563ecc2920056a5dd6e496c5.gif?alt=media&token=de5c25ae-8908-4ea1-9256-4ad366ba90a5');
+  background-image: url('https://i2.wp.com/files.123freevectors.com/wp-content/original/214689-abstract-blue-and-purple-geometric-business-card-background-graphic.jpg?w=800&q=95');
   height: 100%;
   background-position: center;
   background-size: cover;
   position: relative;
-  color: white;
+  color: black;
   font-family: "Courier New", Courier, monospace;
   font-size: 25px;
 }
