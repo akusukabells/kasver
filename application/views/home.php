@@ -7,7 +7,7 @@ body, html {
 }
 
 .bgimg {
-  background-image: url('https://firebasestorage.googleapis.com/v0/b/kasver-92d84.appspot.com/o/galaxy.gif?alt=media&token=9802c743-9f91-45ab-be36-0030dd9581f9');
+  background-image: url('https://firebasestorage.googleapis.com/v0/b/kasver-92d84.appspot.com/o/0eb15636563ecc2920056a5dd6e496c5.gif?alt=media&token=de5c25ae-8908-4ea1-9256-4ad366ba90a5');
   height: 100%;
   background-position: center;
   background-size: cover;
