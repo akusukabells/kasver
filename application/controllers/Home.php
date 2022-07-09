@@ -61,7 +61,7 @@ class Home extends CI_Controller {
 		  // TODO set payment status in merchant's database to 'Settlement'
 		  $db = new firebaseRDB($urldb);
 		  $update = $db->update("Payment", $order_id, [
-			"status"     => $transaction,
+			"status"     => "success",
 			"claim" => "1"
 		 ]);
 		  } 
