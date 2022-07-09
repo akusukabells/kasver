@@ -18,7 +18,7 @@ class Home extends CI_Controller {
 		$this->load->view('pay');
 	}
 	public function notif()
-	{	$urldb = "https://adadad-ef4fb-default-rtdb.asia-southeast1.firebasedatabase.app";
+	{	$urldb = "https://kasver-92d84-default-rtdb.asia-southeast1.firebasedatabase.app";
 		$params = array('server_key' => 'SB-Mid-server-U4Rl-v_VLt-SlGQ1tL9vl4E_', 'production' => false);
 		$this->load->library('veritrans');
 		$this->veritrans->config($params);
@@ -40,6 +40,8 @@ class Home extends CI_Controller {
 		$type = $notif->payment_type;
 		$order_id = $notif->order_id;
 		$fraud = $notif->fraud_status;
+		$transaction_id = $notif->transaction_id;
+		
 
 		if ($transaction == 'capture') {
 		  // For credit card transaction, we need to check whether transaction is challenge by FDS or not
@@ -57,23 +59,27 @@ class Home extends CI_Controller {
 		  }
 		else if ($transaction == 'settlement'){
 		  // TODO set payment status in merchant's database to 'Settlement'
-		    $db = new firebaseRDB($urldb);
-			$insert = $db->insert("Payment/$order_id", $result);
+		  $db = new firebaseRDB($urldb);
+		  $update = $db->update("Payment", $order_id, [
+			"status"     => $transaction,
+			"claim" => "1"
+		 ]);
 		  } 
 		  else if($transaction == 'pending'){
 		  // TODO set payment status in merchant's database to 'Pending'
-		  $db = new firebaseRDB($urldb);
-			$insert = $db->insert("Payment/$order_id", $result);
+		
 		  } 
 		  else if ($transaction == 'deny') {
 		  // TODO set payment status in merchant's database to 'Denied'
-		  $db = new firebaseRDB($urldb);
-			$insert = $db->insert("Payment/$order_id", $result);
+		  
 		}
 		else if ($transaction == 'expire') {
 			// TODO set payment status in merchant's database to 'Denied'
 			$db = new firebaseRDB($urldb);
-			$insert = $db->insert("Payment/$order_id", $result);
+		  $update = $db->update("Payment", $order_id, [
+			"status"     => $transaction,
+			"claim" => "0"
+		 ]);
 		  }
 
 	}
@@ -81,13 +87,14 @@ class Home extends CI_Controller {
 
  class firebaseRDB{
 	function __construct($url=null) {
+		
 	   if(isset($url)){
 		  $this->url = $url;
 	   }else{
 		  throw new Exception("Database URL must be specified");
 	   }
 	}
- 
+	
 	public function grab($url, $method, $par=null){
 	   $ch = curl_init();
 	   curl_setopt($ch, CURLOPT_URL, $url);
@@ -101,25 +108,25 @@ class Home extends CI_Controller {
 	   curl_setopt($ch, CURLOPT_TIMEOUT, 120);
 	   curl_setopt($ch, CURLOPT_HEADER, 0);
 	   $html = curl_exec($ch);
-
-	   return $html;
-	   curl_close($ch);
+	   $json = json_decode(utf8_encode($html), true);
+	  
+	  
 	}
  
  
-	public function insert($table, $data){
+	public function insert($table, $result){
 	   $path = $this->url."/$table.json";
+	   $grab = $this->grab($path, "POST", json_encode($result));
+	   
+	   return $grab;
+	}
+ 
+	public function update($table, $uniqueID, $data){
+		$path = $this->url."/$table/$uniqueID.json";
+		$grab = $this->grab($path, "PATCH", json_encode($data));
+		return $grab;
+	 }
 	 
-	   $grab = $this->grab($path, "POST", json_encode($data));
-	   return $grab;
-	}
- 
-	public function update($table, $order_id, $data){
-	   $path = $this->url."/$table.json?orderBy=order_id&equalTo=".$order_id."";
-	   $grab = $this->grab($path, "PATCH", json_encode($data));
-	   return $grab;
-	}
- 
 	public function delete($table, $uniqueID){
 	   $path = $this->url."/$table/$uniqueID.json";
 	   $grab = $this->grab($path, "DELETE");
@@ -127,18 +134,19 @@ class Home extends CI_Controller {
 	}
  
 	public function retrieve($dbPath, $queryKey=null, $queryType=null, $queryVal =null){
-	   if(isset($queryType) && isset($queryKey) && isset($queryVal)){
-		  $queryVal = urlencode($queryVal);
-		  if($queryType == "EQUAL"){
-				$pars = "orderBy=\"$queryKey\"&equalTo=\"$queryVal\"";
-		  }elseif($queryType == "LIKE"){
-				$pars = "orderBy=\"$queryKey\"&startAt=\"$queryVal\"";
-		  }
-	   }
-	   $pars = isset($pars) ? "?$pars" : "";
-	   $path = $this->url."/$dbPath.json$pars";
-	   $grab = $this->grab($path, "GET");
-	   return $grab;
-	}
+		if(isset($queryType) && isset($queryKey) && isset($queryVal)){
+		   $queryVal = urlencode($queryVal);
+		   if($queryType == "EQUAL"){
+				 $pars = "orderBy=\"$queryKey\"&equalTo=\"$queryVal\"";
+		   }elseif($queryType == "LIKE"){
+				 $pars = "orderBy=\"$queryKey\"&startAt=\"$queryVal\"";
+		   }
+		}
+		$pars = isset($pars) ? "?$pars" : "";
+		$path = $this->url."/$dbPath.json$pars";
+		$grab = $this->grab($path, "GET");
+		return $grab;
+	 }
+
  
  }
