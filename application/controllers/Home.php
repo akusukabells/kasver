@@ -61,9 +61,9 @@ class Home extends CI_Controller {
 		  // TODO set payment status in merchant's database to 'Settlement'
 		  $db = new firebaseRDB($urldb);
 		  $update = $db->update("Payment", $order_id, [
-			"status"     => "success",
+			"status"     => $transaction,
 			"claim" => "1",
-			  "date" => $milliseconds"
+			"date" => $milliseconds
 		 ]);
 		  } 
 		  else if($transaction == 'pending'){
@@ -77,9 +77,10 @@ class Home extends CI_Controller {
 		else if ($transaction == 'expire') {
 			// TODO set payment status in merchant's database to 'Denied'
 			$db = new firebaseRDB($urldb);
-		  $update = $db->update("Payment", $order_id, [
+		 $update = $db->update("Payment", $order_id, [
 			"status"     => $transaction,
-			"claim" => "0"
+			"claim" => "0",
+			"date" => $milliseconds
 		 ]);
 		  }
 
