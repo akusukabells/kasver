@@ -61,12 +61,7 @@ class Home extends CI_Controller {
 		  // TODO set payment status in merchant's database to 'Settlement'
 		  $db = new firebaseRDB($urldb);
 		 if($type == "gopay" || $type == "shopeepay"){
-			$update = $db->update("Payment", $order_id, [
-				"status"     => $transaction,
-				"claim" => "1",
-				"date" => $milliseconds,
-				"uid" => "error"
-			 ]);
+			
 		  }else{
 			$update = $db->update("Payment", $order_id, [
 				"status"     => $transaction,
@@ -87,12 +82,7 @@ class Home extends CI_Controller {
 			// TODO set payment status in merchant's database to 'Denied'
 			$db = new firebaseRDB($urldb);
 		 if($type == "gopay" || $type == "shopeepay"){
-			$update = $db->update("Payment", $order_id, [
-				"status"     => $transaction,
-				"claim" => "1",
-				"date" => $milliseconds,
-				"uid" => "error"
-			 ]);
+			
 		  }else{
 			$update = $db->update("Payment", $order_id, [
 				"status"     => $transaction,
