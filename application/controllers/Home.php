@@ -41,7 +41,7 @@ class Home extends CI_Controller {
 		$order_id = $notif->order_id;
 		$fraud = $notif->fraud_status;
 		$transaction_id = $notif->transaction_id;
-		
+		$milliseconds = floor(microtime(true) * 1000);
 
 		if ($transaction == 'capture') {
 		  // For credit card transaction, we need to check whether transaction is challenge by FDS or not
@@ -62,7 +62,8 @@ class Home extends CI_Controller {
 		  $db = new firebaseRDB($urldb);
 		  $update = $db->update("Payment", $order_id, [
 			"status"     => "success",
-			"claim" => "1"
+			"claim" => "1",
+			  "date" => $milliseconds"
 		 ]);
 		  } 
 		  else if($transaction == 'pending'){
